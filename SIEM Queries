@@ -1,0 +1,38 @@
+SIEM QUERIES
+
+SIEM Queries for Incident Investigation
+
+Prepared by: Sachin Sree
+SIEM Tool Used: Splunk (Free Trial Version)
+Date: 10-June-2025
+
+1. Failed Login Attempts (Brute-force Detection)
+
+index=auth_logs sourcetype=winsecurity EventCode=4625
+| stats count by src_ip, user, _time
+
+Purpose: Detect multiple failed login attempts (brute-force attack)
+
+2. Successful Login of Admin Account
+
+index=auth_logs sourcetype=winsecurity EventCode=4624 user="admin"
+
+Purpose: Identify successful admin login after brute force attempts
+
+3. Privilege Escalation Activity
+
+index=auth_logs sourcetype=winsecurity (EventCode=4670 OR EventCode=4672)
+
+Purpose: Detect changes in admin privileges and permission assignments
+
+4. Sensitive File Access
+
+index=filesystem_logs file_path="/finance/reports/Q2_Confidential.pdf"
+
+Purpose: Track access to sensitive financial data
+
+5. Outbound Traffic Monitoring (Data Exfiltration)
+
+index=network_logs dest_ip="203.0.113.10"
+
+Purpose: Detect data exfiltration attempts to external IP
